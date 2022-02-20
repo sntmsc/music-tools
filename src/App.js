@@ -5,33 +5,45 @@ import { Text, Flex, Button } from '@chakra-ui/react'
 
 const Bpm = () => {
 const [average, setAverage] = useState(0);
-  let initTime = 0;
+const [initTime, setInitTime] = useState({
+  time: 0,
+  acc:0
+});
+
   let currentTime = 0;
-  let acc = 0;
   let duration = 0;
 
   const handleClick = () => {
-    if(acc === 0){
-      initTime = new Date().getTime();
+
+    if(initTime.acc === 0){
+      setInitTime({...initTime,
+        time: new Date().getTime(),
+        acc:initTime.acc+1});
+
+    }
+    else{
+      setInitTime({...initTime,
+        acc: initTime.acc+1});
     }
 
     currentTime = new Date().getTime();
-    duration = (currentTime - initTime)/1000;
+    duration = (currentTime - initTime.time)/1000;
     
-    if(duration !== 0) setAverage((acc * 60 / duration).toFixed(2));
+    if(duration !== 0) setAverage((initTime.acc * 60 / duration).toFixed(1));
 
-    acc += 1;
-    console.log(average); 
+    console.log(initTime.acc)
 
   }
 
   const Reset = () =>{
 
-     initTime = 0;
      currentTime = 0;
-     acc = 0;
      duration = 0;
      setAverage(0);
+     setInitTime({
+      time: 0,
+      acc:0
+    });
   }
 
   return(
@@ -41,7 +53,8 @@ const [average, setAverage] = useState(0);
     align='center'
     direction='column'>
       <Text
-      fontSize='3em'>
+      fontSize='3em'
+      userSelect = 'none'>
         BPM meter
       </Text>
       <Flex
@@ -58,12 +71,9 @@ const [average, setAverage] = useState(0);
       align='center'
       onClick={handleClick}>
       <Text
-      fontSize='2em'>
-        {average}
-      </Text>
-      <Text
-      fontSize='1em'>
-        touch
+      fontSize={initTime.acc === 0 ? '1em' : '2em'}
+      userSelect = 'none'>
+        {initTime.acc === 0 ? 'Press me' : average}
       </Text>
       </Flex>
       <Button
