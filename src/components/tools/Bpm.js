@@ -4,23 +4,39 @@ import { motion } from 'framer-motion'
 import './Bpm.css'
 
 const Bpm = () => {
+    const [resetIsClick, setResetIsClick] = useState(false);
+    const [tapIsClick, setTapIsClick] = useState(false);
     const [average, setAverage] = useState(0);
     const [initTime, setInitTime] = useState({
       time: 0,
       acc:0
     });
-
-    const variants = {
+//////////////////////////FRAMER MOTION //////////////////////////////
+    const tapVariants = {
         init: { scale: 1 },
-        value: { scale: 1.2, transition:{duration:0.4}}
+        value: { scale: 1.1, transition:{duration:0.2}}
+
       }
 
+    const resetVariants = {
+      init: {rotate:0},
+      value: {scale: [1, 1.2, 1.2, 1, 1],
+        rotate: [50, 0, -50, 0, 50, 0, -50, 0,50, 0, -50, 0], transition:{duration:0.5}}
+    }
+    const animateClick = (setValue) => {
+      setValue(true);
+      console.log('prueba')
+      setTimeout(() => {
+        setValue(false);
+      },200);
+    }
+///////////////////////////////////////////////////////////////////////
     
       let currentTime = 0;
       let duration = 0;
     
       const handleClick = () => {
-    
+        animateClick(setTapIsClick);
         if(initTime.acc === 0){
           setInitTime({...initTime,
             time: new Date().getTime(),
@@ -40,7 +56,7 @@ const Bpm = () => {
       }
     
       const Reset = () =>{
-    
+         animateClick(setResetIsClick);
          currentTime = 0;
          duration = 0;
          setAverage(0);
@@ -66,8 +82,8 @@ const Bpm = () => {
           className='tap-mobile'
           _active={{outline:'none'}}
           as={motion.div}
-          variants={variants}
-          whileTap="value"
+          variants={tapVariants}
+          animate= {tapIsClick ? "value" : "init"}
           direction='column'
           mt='2em'
           mb='1em'
@@ -90,6 +106,9 @@ const Bpm = () => {
           </Text>
           </Flex>
           <Button
+          as={motion.button}
+          variants={resetVariants}
+          animate= {resetIsClick ? "value" : "init"}
           className='tap-mobile'
           colorScheme='black'
           variant='outline'
