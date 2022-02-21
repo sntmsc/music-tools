@@ -4,13 +4,17 @@ import { motion } from 'framer-motion'
 import './Bpm.css'
 
 const Bpm = () => {
+
+    const defaultTime = {
+      time: 0,
+      acc:0
+    }
     const [resetIsClick, setResetIsClick] = useState(false);
     const [tapIsClick, setTapIsClick] = useState(false);
     const [average, setAverage] = useState(0);
-    const [initTime, setInitTime] = useState({
-      time: 0,
-      acc:0
-    });
+    const [initTime, setInitTime] = useState(defaultTime);
+
+
 //////////////////////////FRAMER MOTION //////////////////////////////
     const tapVariants = {
         init: { scale: 1 },
@@ -25,15 +29,11 @@ const Bpm = () => {
     }
     const animateClick = (setValue) => {
       setValue(true);
-      console.log('prueba')
       setTimeout(() => {
         setValue(false);
       },200);
     }
 ///////////////////////////////////////////////////////////////////////
-    
-      let currentTime = 0;
-      let duration = 0;
     
       const handleClick = () => {
         animateClick(setTapIsClick);
@@ -41,15 +41,14 @@ const Bpm = () => {
           setInitTime({...initTime,
             time: new Date().getTime(),
             acc:initTime.acc+1});
-    
         }
         else{
           setInitTime({...initTime,
             acc: initTime.acc+1});
         }
     
-        currentTime = new Date().getTime();
-        duration = (currentTime - initTime.time)/1000;
+        const currentTime = new Date().getTime();
+        const duration = (currentTime - initTime.time)/1000;
         
         if(duration !== 0) setAverage((initTime.acc * 60 / duration).toFixed(1));
     
@@ -57,13 +56,8 @@ const Bpm = () => {
     
       const Reset = () =>{
          animateClick(setResetIsClick);
-         currentTime = 0;
-         duration = 0;
          setAverage(0);
-         setInitTime({
-          time: 0,
-          acc:0
-        });
+         setInitTime(defaultTime);
       }
     
       return(
