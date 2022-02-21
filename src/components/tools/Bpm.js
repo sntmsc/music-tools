@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import { Text, Flex, Button } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
+import './Bpm.css'
 
 const Bpm = () => {
     const [average, setAverage] = useState(0);
@@ -62,6 +63,8 @@ const Bpm = () => {
             TAP BPM
           </Text>
           <Flex
+          className='tap-mobile'
+          _active={{outline:'none'}}
           as={motion.div}
           variants={variants}
           whileTap="value"
@@ -87,9 +90,11 @@ const Bpm = () => {
           </Text>
           </Flex>
           <Button
+          className='tap-mobile'
           colorScheme='black'
           variant='outline'
           mt='1em'
+          _focus={{outline:'none'}}
           onClick={Reset}>
             Reset
           </Button>
