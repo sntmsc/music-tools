@@ -3,7 +3,7 @@ import { Text, Flex, Button } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import './Bpm.css'
 
-const Bpm = () => {
+const Bpm = ({setApp, app, variants}) => {
 
     const defaultTime = {
       time: 0,
@@ -62,55 +62,84 @@ const Bpm = () => {
     
       return(
         <Flex
+        as={motion.div}
+        variants={variants}
+        initial='init'
+        animate='value'
+        exit='exit'
+        backgroundImage="linear-gradient( #c6ffdd, #fbd786, #f7797d)"
         w='100%'
-        justify='center'
+        h='100vh'
         align='center'
-        direction='column'>
-          <Text
-          fontSize='3em'
-          fontFamily="'Shadows Into Light', cursive"
-          userSelect = 'none'>
-            TAP BPM
-          </Text>
+        justify='center'>
           <Flex
-          className='tap-mobile'
-          _active={{outline:'none'}}
-          as={motion.div}
-          variants={tapVariants}
-          animate= {tapIsClick ? "value" : "init"}
-          direction='column'
-          mt='2em'
-          mb='1em'
-          boxSize='10em'
-          boxShadow='xl'
-          border='1px solid'
-          borderRadius='50%'
-          userSelect='none'
-          _hover={{cursor:'pointer'}}
-          bg='transparent'
-          p='1em'
+          w='100%'
           justify='center'
           align='center'
-          onClick={handleClick}>
-          <Text
-          fontSize={initTime.acc === 0 ? '1.5em' : '2.5em'}
-          userSelect = 'none'
-          fontFamily="'Nanum Gothic Coding', monospace">
-            {initTime.acc === 0 ? 'Press me' : average}
-          </Text>
+          direction='column'>
+            <Flex
+            position='absolute'
+            top='0'
+            w='100%'
+            justify='flex-end'>
+              <Text
+              onClick={()=>setApp(!app)}
+              textDecoration='underline'
+              cursor='pointer'
+              mr='.5em'
+              mt='.5em'
+              fontSize='1.5em'
+              userSelect = 'none'
+              fontFamily="'Shadows Into Light', cursive">
+                Go to notes for tune
+              </Text>
+            </Flex>
+            <Text
+            fontSize='3em'
+            fontFamily="'Shadows Into Light', cursive"
+            userSelect = 'none'>
+              TAP BPM
+            </Text>
+            <Flex
+            className='tap-mobile'
+            _active={{outline:'none'}}
+            as={motion.div}
+            variants={tapVariants}
+            animate= {tapIsClick ? "value" : "init"}
+            direction='column'
+            mt='2em'
+            mb='1em'
+            boxSize='10em'
+            boxShadow='xl'
+            border='1px solid'
+            borderRadius='50%'
+            userSelect='none'
+            _hover={{cursor:'pointer'}}
+            bg='transparent'
+            p='1em'
+            justify='center'
+            align='center'
+            onClick={handleClick}>
+            <Text
+            fontSize={initTime.acc === 0 ? '1.5em' : '2.5em'}
+            userSelect = 'none'
+            fontFamily="'Nanum Gothic Coding', monospace">
+              {initTime.acc === 0 ? 'Press me' : average}
+            </Text>
+            </Flex>
+            <Button
+            as={motion.button}
+            variants={resetVariants}
+            animate= {resetIsClick ? "value" : "init"}
+            className='tap-mobile'
+            colorScheme='black'
+            variant='outline'
+            mt='1em'
+            _focus={{outline:'none'}}
+            onClick={Reset}>
+              Reset
+            </Button>
           </Flex>
-          <Button
-          as={motion.button}
-          variants={resetVariants}
-          animate= {resetIsClick ? "value" : "init"}
-          className='tap-mobile'
-          colorScheme='black'
-          variant='outline'
-          mt='1em'
-          _focus={{outline:'none'}}
-          onClick={Reset}>
-            Reset
-          </Button>
         </Flex>
       )
     }
