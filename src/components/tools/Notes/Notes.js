@@ -48,7 +48,6 @@ const arrAllNotes = [
           {note.nt === '' && 
           <>
           <Flex
-          onClick={()=>setApp(!app)}
           position='absolute'
           top='0%'
           w='100%'
@@ -57,6 +56,7 @@ const arrAllNotes = [
           mt='.5em'
           align='center'>
             <Text
+            onClick={()=>setApp(!app)}
             cursor='pointer'
             p='.3em'
             border='1px solid white'
